@@ -17,6 +17,8 @@ const app = express()
 
 const listEndpoints = require('express-list-endpoints')
 
+const error_couldNotSave = 'Could not save grocery to the database'
+
 // Add middlewares to enable cors and json body parsing
 app.use(cors())
 app.use(bodyParser.json())
@@ -24,6 +26,29 @@ app.use(bodyParser.json())
 // Root
 app.get('/', (req, res) => {
   res.send(listEndpoints(app))
+})
+
+// Groceries
+app.get('/groceries', async (req, res) => {
+  const allGroceries = await Grocery.find()
+  res.send(allGroceries)
+})
+
+// Post new grocery
+app.post('/groceries', async (req, res) => {
+  // Retrieve information from client to endpoint
+  const { name, category } = req.body
+
+  // Create DB entry
+  const grocery = new Grocery({ name, category })
+
+  try {
+    // Success
+    const savedGrocery = await grocery.save()
+    res.status(201).json(savedGrocery)
+  } catch (err) {
+    res.status(400).json({ message: error_couldNotSave, error: err.errors })
+  }
 })
 
 // Start the server
