@@ -2,6 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
+import Grocery from './models/grocery.js'
 
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/fridge'
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
