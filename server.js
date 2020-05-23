@@ -51,6 +51,18 @@ app.post('/groceries', async (req, res) => {
   }
 })
 
+// Delete grocery
+app.delete('/groceries/:id', async (req, res) => {
+  const { id } = req.params
+
+  try {
+    await Grocery.findOneAndDelete({ _id: id })
+    res.status(202).json({ message: "Deleted grocery" })
+  } catch (err) {
+    res.status(404).json({ message: "Can't delete the grocery", error: err.errors })
+  }
+})
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`)
