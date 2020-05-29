@@ -45,11 +45,11 @@ app.get('/groceries', async (req, res) => {
     }
   }
 
-  const allGroceries = await Grocery.find()
+  const groceries = await Grocery.find()
     .sort(sorting(sort))
     .exec()
 
-  res.json({ allGroceries })
+  res.json({ groceries })
 })
 
 // Post new grocery
