@@ -30,8 +30,26 @@ app.get('/', (req, res) => {
 
 // Groceries
 app.get('/groceries', async (req, res) => {
+  const { sort } = req.query
+
+  // Sort groceries based on sort query
+  const sorting = (sort) => {
+    if (sort === 'name') { // Name alphabetically
+      return { name: 'asc' }
+    } else if (sort === 'category') { // Category alphabetically
+      return { category: 'asc' }
+    } else if (sort === 'newest') { // Created newest > oldest
+      return { createdAt: 'desc' }
+    } else if (sort === 'oldest') { // Created oldest > newest
+      return { createdAt: 'asc' }
+    }
+  }
+
   const allGroceries = await Grocery.find()
-  res.send(allGroceries)
+    .sort(sorting(sort))
+    .exec()
+
+  res.json({ allGroceries })
 })
 
 // Post new grocery
