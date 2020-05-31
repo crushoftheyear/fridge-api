@@ -46,7 +46,7 @@ app.get('/groceries', async (req, res) => {
   }
 
   const groceries = await Grocery.find()
-    .collation({ locale: 'en' })
+    .collation({ locale: 'sv' })
     .sort(sorting(sort))
     .exec()
 
