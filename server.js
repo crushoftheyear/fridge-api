@@ -35,7 +35,7 @@ app.get('/groceries', async (req, res) => {
   // Sort groceries based on sort query
   const sorting = (sort) => {
     if (sort === 'name') { // Name alphabetically
-      return { name: 'asc' }
+      return { name: 1 }
     } else if (sort === 'category') { // Category alphabetically
       return { category: 'asc' }
     } else if (sort === 'newest') { // Created newest > oldest
@@ -46,6 +46,7 @@ app.get('/groceries', async (req, res) => {
   }
 
   const groceries = await Grocery.find()
+    .collation({ locale: 'en' })
     .sort(sorting(sort))
     .exec()
 
